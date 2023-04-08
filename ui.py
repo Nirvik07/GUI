@@ -5,9 +5,10 @@ from tkinter import filedialog
 import tkinter.font as font
 
 
-def back_home():
-    frame_ana.destroy()
-    frame_home.pack()
+
+win = tk.Tk()
+
+
 
 
 def browse_file():
@@ -26,8 +27,6 @@ def details():
     frame_details.pack()
 
 
-win = tk.Tk()
-
 win.geometry("600x400")
 win.resizable(False, False)
 win.title("Artificial Intelligence based Classification")
@@ -37,18 +36,21 @@ lebel_title = tk.Label(win, text="Artificial Intelligence based Classification",
 lebel_title.pack()
 
 
-frame_home = tk.Frame(win, width=600, height=350)
-frame_home.pack()
 img = Image.open("bg.png")
 img = img.resize((200, 200))
 img_bg = ImageTk.PhotoImage(img)
-lebel_img_bg = tk.Label(frame_home, image=img_bg)
-lebel_img_bg.place(x=200, y=0)
-btn_eda = tk.Button(frame_home, text="Show EDA", font=btnFont, width=20)
-btn_eda.place(x=20, y=240)
-btn_analyze = tk.Button(frame_home, text="Analyze Document",
-                        font=btnFont, command=analyze)
-btn_analyze.place(x=340, y=240)
+
+
+def home_page():
+    frame_home = tk.Frame(win, width=600, height=350)
+    frame_home.pack()
+    lebel_img_bg = tk.Label(frame_home, image=img_bg)
+    lebel_img_bg.place(x=200, y=0)
+    btn_eda = tk.Button(frame_home, text="Show EDA", font=btnFont, width=20)
+    btn_eda.place(x=20, y=240)
+    btn_analyze = tk.Button(frame_home, text="Analyze Document",
+                            font=btnFont, command=analyze)
+    btn_analyze.place(x=340, y=240)
 
 
 frame_ana = tk.Frame(win, width=600, height=350)
@@ -69,7 +71,7 @@ btn_reset = tk.Button(frame_ana, text="Reset", width="12", height="1",
                       activebackground="red", bg="Pink", font=("Calibri 12 "))
 btn_reset.place(x=240, y=280)
 btn_back_home = tk.Button(frame_ana, text="Back", width="12", height="1",
-                          activebackground="red", bg="Pink", font=("Calibri 12 "), command=back_home)
+                          activebackground="red", bg="Pink", font=("Calibri 12 "))
 btn_back_home.place(x=60, y=280)
 btn_details = tk.Button(frame_ana, text="Show Details", width="12", height="1",
                         activebackground="violet", bg="Pink", font=("Calibri 12 "), command=details)
@@ -95,5 +97,5 @@ btn_predict = tk.Button(frame_details, text="Predict", width="12", height="1",
                         activebackground="violet", bg="Pink", font=("Calibri 12 "))
 btn_predict.place(x=420, y=280)
 
-
+home_page()
 win.mainloop()
