@@ -17,7 +17,7 @@ class App(customtkinter.CTk):
         self.grid_columnconfigure(1, weight=1)
         self.navigation_frame = customtkinter.CTkFrame(self, corner_radius=0)
         self.navigation_frame.grid(row=0, column=0, sticky="nsew")
-        self.navigation_frame.grid_rowconfigure(6, weight=1)
+        self.navigation_frame.grid_rowconfigure(7, weight=1)
 
 # nav image variable
 
@@ -34,6 +34,8 @@ class App(customtkinter.CTk):
             os.path.join(image_path, "model.png")), size=(26, 26))
         self.predict_image = customtkinter.CTkImage(Image.open(
             os.path.join(image_path, "predict.png")), size=(26, 26))
+        self.eda_image = customtkinter.CTkImage(Image.open(
+            os.path.join(image_path, "eda.png")), size=(26, 26))
 
 # nav button variable declearing & call
 
@@ -60,6 +62,9 @@ class App(customtkinter.CTk):
         self.history_button = customtkinter.CTkButton(self.navigation_frame, corner_radius=0, height=40, border_spacing=10, text="  Historical judgments", image=self.history_image,
                                                       fg_color="transparent", text_color=("gray10", "gray90"), hover_color=("gray70", "gray30"), anchor="w", font=customtkinter.CTkFont(size=15, weight="bold"), command=self.history_button_event)
         self.history_button.grid(row=5, column=0, sticky="ew")
+        self.eda_button = customtkinter.CTkButton(self.navigation_frame, corner_radius=0, height=40, border_spacing=10, text="  EDA", image=self.eda_image,
+                                                      fg_color="transparent", text_color=("gray10", "gray90"), hover_color=("gray70", "gray30"), anchor="w", font=customtkinter.CTkFont(size=15, weight="bold"), command=self.eda_button_event)
+        self.eda_button.grid(row=6, column=0, sticky="ew")
 
 # home frame
 
@@ -77,13 +82,64 @@ class App(customtkinter.CTk):
             row=1, column=0)
 
 # analyze frame
+
         self.analyze_frame = customtkinter.CTkFrame(
             self, corner_radius=0, fg_color="transparent")
         self.home_frame.grid_columnconfigure(0, weight=1)
-        self.home_title_label = customtkinter.CTkLabel(
+        self.analyze_title_label = customtkinter.CTkLabel(
             self.analyze_frame, text="Analyze Page")
-        self.home_title_label.grid(
+        self.analyze_title_label.grid(
             row=0, column=0, pady=10,padx=10,sticky="ne")
+        
+# extract page
+
+        self.extract_frame = customtkinter.CTkFrame(
+            self, corner_radius=0, fg_color="transparent")
+        self.home_frame.grid_columnconfigure(0, weight=1)
+        self.extract_title_label = customtkinter.CTkLabel(
+            self.extract_frame, text="Extract Feature Page")
+        self.extract_title_label.grid(
+            row=0, column=0, pady=10,padx=10,sticky="ne")
+        
+# model selection page
+        self.model_frame = customtkinter.CTkFrame(
+            self, corner_radius=0, fg_color="transparent")
+        self.home_frame.grid_columnconfigure(0, weight=1)
+        self.model_title_label = customtkinter.CTkLabel(
+            self.model_frame, text="Model selection Page")
+        self.model_title_label.grid(
+            row=0, column=0, pady=10,padx=10,sticky="ne")
+
+# Prediction page
+        self.prediction_frame = customtkinter.CTkFrame(
+            self, corner_radius=0, fg_color="transparent")
+        self.home_frame.grid_columnconfigure(0, weight=1)
+        self.prediction_title_label = customtkinter.CTkLabel(
+            self.prediction_frame, text="Prediction page")
+        self.prediction_title_label.grid(
+            row=0, column=0, pady=10,padx=10,sticky="ne")
+        
+# Historical judgments 
+        
+        self.history_frame = customtkinter.CTkFrame(
+            self, corner_radius=0, fg_color="transparent")
+        self.home_frame.grid_columnconfigure(0, weight=1)
+        self.history_title_label = customtkinter.CTkLabel(
+            self.history_frame, text="Historical judgments  Page")
+        self.history_title_label.grid(
+            row=0, column=0, pady=10,padx=10,sticky="ne")
+        
+# EDA page
+
+        self.eda_frame = customtkinter.CTkFrame(
+            self, corner_radius=0, fg_color="transparent")
+        self.home_frame.grid_columnconfigure(0, weight=1)
+        self.eda_title_label = customtkinter.CTkLabel(
+            self.eda_frame, text="EDA Page")
+        self.eda_title_label.grid(
+            row=0, column=0, pady=10,padx=10,sticky="ne")
+
+
 
 # active the home button start
         self.select_frame_by_name("home")
@@ -103,6 +159,8 @@ class App(customtkinter.CTk):
             fg_color=("gray75", "gray25") if name == "prediction" else "transparent")
         self.history_button.configure(
             fg_color=("gray75", "gray25") if name == "history" else "transparent")
+        self.eda_button.configure(
+            fg_color=("gray75", "gray25") if name == "eda" else "transparent")
 
 # active the frame
 
@@ -114,6 +172,26 @@ class App(customtkinter.CTk):
             self.analyze_frame.grid(row=0, column=1, sticky="nsew")
         else:
             self.analyze_frame.grid_forget()
+        if name == "extract":
+            self.extract_frame.grid(row=0, column=1, sticky="nsew")
+        else:
+            self.extract_frame.grid_forget()
+        if name == "model":
+            self.model_frame.grid(row=0, column=1, sticky="nsew")
+        else:
+            self.model_frame.grid_forget()
+        if name == "prediction":
+            self.prediction_frame.grid(row=0, column=1, sticky="nsew")
+        else:
+            self.prediction_frame.grid_forget()
+        if name == "history":
+            self.history_frame.grid(row=0, column=1, sticky="nsew")
+        else:
+            self.history_frame.grid_forget()
+        if name == "eda":
+            self.eda_frame.grid(row=0, column=1, sticky="nsew")
+        else:
+            self.eda_frame.grid_forget()
 
 # button functions
 
@@ -136,6 +214,8 @@ class App(customtkinter.CTk):
     def history_button_event(self):
         self.select_frame_by_name("history")
 
+    def eda_button_event(self):
+        self.select_frame_by_name("eda")
 
 if __name__ == "__main__":
     app = App()
