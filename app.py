@@ -1,4 +1,5 @@
 import customtkinter
+from customtkinter import filedialog
 import os
 from PIL import Image
 
@@ -21,7 +22,8 @@ class App(customtkinter.CTk):
 
 # nav image variable
 
-        image_path = os.path.join(os.path.dirname(os.path.realpath(__file__)),"images")
+        image_path = os.path.join(os.path.dirname(
+            os.path.realpath(__file__)), "images")
         self.logo_image = customtkinter.CTkImage(Image.open(
             os.path.join(image_path, "home.png")), size=(26, 26))
         self.analyze_image = customtkinter.CTkImage(Image.open(
@@ -63,15 +65,16 @@ class App(customtkinter.CTk):
                                                       fg_color="transparent", text_color=("gray10", "gray90"), hover_color=("gray70", "gray30"), anchor="w", font=customtkinter.CTkFont(size=15, weight="bold"), command=self.history_button_event)
         self.history_button.grid(row=5, column=0, sticky="ew")
         self.eda_button = customtkinter.CTkButton(self.navigation_frame, corner_radius=0, height=40, border_spacing=10, text="  EDA", image=self.eda_image,
-                                                      fg_color="transparent", text_color=("gray10", "gray90"), hover_color=("gray70", "gray30"), anchor="w", font=customtkinter.CTkFont(size=15, weight="bold"), command=self.eda_button_event)
+                                                  fg_color="transparent", text_color=("gray10", "gray90"), hover_color=("gray70", "gray30"), anchor="w", font=customtkinter.CTkFont(size=15, weight="bold"), command=self.eda_button_event)
         self.eda_button.grid(row=6, column=0, sticky="ew")
 
-# home frame
+############################################################################################
+################################    home frame    ##########################################
+############################################################################################
 
         self.home_frame = customtkinter.CTkFrame(
             self, corner_radius=0, fg_color="transparent")
         self.home_frame.grid_columnconfigure(0, weight=1)
-
         self.home_title_label = customtkinter.CTkLabel(
             self.home_frame, text="CourtAI", font=customtkinter.CTkFont(size=25, weight="bold"))
         self.home_title_label.grid(
@@ -81,64 +84,83 @@ class App(customtkinter.CTk):
         self.home_description_label.grid(
             row=1, column=0)
 
-# analyze frame
+############################################################################################
+#########################    analyze frame    ##############################################
+############################################################################################
 
         self.analyze_frame = customtkinter.CTkFrame(
             self, corner_radius=0, fg_color="transparent")
-        self.home_frame.grid_columnconfigure(0, weight=1)
+        self.analyze_frame.grid_columnconfigure(0, weight=1)
+        # self.analyze_frame.grid_rowconfigure(1, weight=1)
         self.analyze_title_label = customtkinter.CTkLabel(
-            self.analyze_frame, text="Analyze Page")
+            self.analyze_frame, text="Analyze Page",font=customtkinter.CTkFont(size=20, weight="bold"))
         self.analyze_title_label.grid(
-            row=0, column=0, pady=10,padx=10,sticky="ne")
+            row=0, column=0, pady=10, padx=10, sticky="new")
         
-# extract page
+        self.analyze_upload_frame=customtkinter.CTkFrame(self.analyze_frame)
+        self.analyze_upload_frame.grid(row=1,column=0,pady=10, padx=10, sticky="new")
+        # upload frame
+        self.file_upload_btn=customtkinter.CTkButton(self.analyze_upload_frame,text="Upload PDF",command=self.upload_file)
+        self.file_location_label=customtkinter.CTkLabel(self.analyze_upload_frame,text="No File Selected",text_color="red")
+        self.analyze_file_btn=customtkinter.CTkButton(self.analyze_upload_frame,text="Analyze File")
+        self.file_upload_btn.grid(row=0, column=0, pady=10, padx=10, sticky="nw")
+        self.file_location_label.grid(row=0,column=1,pady=10, padx=10, sticky="nw")
+        self.analyze_file_btn.grid(row=1,column=1,pady=10, padx=10, sticky="nw")
+
+
+
+
+############################################################################################
+############################    extract page    ############################################
+############################################################################################
 
         self.extract_frame = customtkinter.CTkFrame(
             self, corner_radius=0, fg_color="transparent")
-        self.home_frame.grid_columnconfigure(0, weight=1)
         self.extract_title_label = customtkinter.CTkLabel(
             self.extract_frame, text="Extract Feature Page")
         self.extract_title_label.grid(
-            row=0, column=0, pady=10,padx=10,sticky="ne")
-        
-# model selection page
+            row=0, column=0, pady=10, padx=10, sticky="ne")
+
+############################################################################################
+######################    model selection page   ###########################################
+############################################################################################
         self.model_frame = customtkinter.CTkFrame(
             self, corner_radius=0, fg_color="transparent")
-        self.home_frame.grid_columnconfigure(0, weight=1)
         self.model_title_label = customtkinter.CTkLabel(
             self.model_frame, text="Model selection Page")
         self.model_title_label.grid(
-            row=0, column=0, pady=10,padx=10,sticky="ne")
+            row=0, column=0, pady=10, padx=10, sticky="ne")
 
-# Prediction page
+############################################################################################
+#########################    Prediction page    ############################################
+############################################################################################
         self.prediction_frame = customtkinter.CTkFrame(
             self, corner_radius=0, fg_color="transparent")
-        self.home_frame.grid_columnconfigure(0, weight=1)
         self.prediction_title_label = customtkinter.CTkLabel(
             self.prediction_frame, text="Prediction page")
         self.prediction_title_label.grid(
-            row=0, column=0, pady=10,padx=10,sticky="ne")
-        
-# Historical judgments 
-        
+            row=0, column=0, pady=10, padx=10, sticky="ne")
+
+############################################################################################
+##################    Historical judgments   ###############################################
+############################################################################################
+
         self.history_frame = customtkinter.CTkFrame(
             self, corner_radius=0, fg_color="transparent")
-        self.home_frame.grid_columnconfigure(0, weight=1)
         self.history_title_label = customtkinter.CTkLabel(
             self.history_frame, text="Historical judgments  Page")
         self.history_title_label.grid(
-            row=0, column=0, pady=10,padx=10,sticky="ne")
-        
-# EDA page
+            row=0, column=0, pady=10, padx=10, sticky="ne")
+############################################################################################
+##########################        # EDA page    ############################################
+############################################################################################
 
         self.eda_frame = customtkinter.CTkFrame(
             self, corner_radius=0, fg_color="transparent")
-        self.home_frame.grid_columnconfigure(0, weight=1)
         self.eda_title_label = customtkinter.CTkLabel(
             self.eda_frame, text="EDA Page")
         self.eda_title_label.grid(
-            row=0, column=0, pady=10,padx=10,sticky="ne")
-
+            row=0, column=0, pady=10, padx=10, sticky="ne")
 
 
 # active the home button start
@@ -195,7 +217,6 @@ class App(customtkinter.CTk):
 
 # button functions
 
-
     def home_button_event(self):
         self.select_frame_by_name("home")
 
@@ -216,6 +237,12 @@ class App(customtkinter.CTk):
 
     def eda_button_event(self):
         self.select_frame_by_name("eda")
+
+    def upload_file(self):
+        file_path=filedialog.askopenfilename(filetypes=[("PDF File",'.pdf')])
+        if(file_path):
+            self.file_location_label.configure(text="File Selected: "+file_path,text_color="black")
+
 
 if __name__ == "__main__":
     app = App()
