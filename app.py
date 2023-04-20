@@ -9,7 +9,6 @@ import matplotlib.pyplot as plt
 
 customtkinter.set_appearance_mode("light")
 
-
 class MyFrame(customtkinter.CTkScrollableFrame):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -132,13 +131,12 @@ class App(customtkinter.CTk):
             self.analyze_file_frame)
         self.analyze_doc_label4 = customtkinter.CTkLabel(
             self.analyze_file_frame)
-        self.search_entry = customtkinter.CTkEntry(
-            self.analyze_file_frame, width=200, placeholder_text="FIR,Police station")
-        search_text = self.search_entry.get()
-        self.analyze_search_btn = customtkinter.CTkButton(
-            self.analyze_file_frame, text="Search", command=lambda: self.search_event(search_text), width=100)
+        self.search_entry = customtkinter.CTkEntry(self.analyze_file_frame, width=200, placeholder_text="FIR,Police station")
+        search_text=self.search_entry.get()
+        self.analyze_search_btn = customtkinter.CTkButton(self.analyze_file_frame, text="Search", command=lambda:self.search_event(search_text), width=100)
         self.analyze_doc_search_label = customtkinter.CTkLabel(
             self.analyze_file_frame)
+        
 
 
 ############################################################################################
@@ -193,81 +191,128 @@ class App(customtkinter.CTk):
         self.scrollable_frame.grid(row=0, column=0, sticky="nsew")
         self.scrollable_frame.grid_columnconfigure(0, weight=1)
 
-        # YEAR VS TOTAL NO OF CASES (BAR-CHART)
-        self.canvas_frame = customtkinter.CTkFrame(
-            self.scrollable_frame, height=500, width=500)
-        self.canvas_frame.grid(row=1, column=0, pady=5, padx=5, sticky="nw")
 
-        new_dictionary = EDA.bar_graph_allcases()
-        fig2, ax2 = plt.subplots()
-        bar = ax2.bar(list(new_dictionary.keys()),
+        def combobox_callback(choice):
+            print(choice)
+            if choice == "chart1":
+                self.canvas_frame1 = customtkinter.CTkFrame(
+                self.scrollable_frame, height=500, width=500)
+                self.canvas_frame1.grid(row=1, column=0, pady=5, padx=5, sticky="nw")
+
+                new_dictionary = EDA.bar_graph_allcases()
+                fig2, ax2 = plt.subplots()
+                bar = ax2.bar(list(new_dictionary.keys()),
                       list(new_dictionary.values()))
-        ax2.set_title("Total number of cases in each year from 2001-2014")
-        ax2.set_xlabel("Year")
-        ax2.set_ylabel("Total no of crimes")
-        self.canvas = FigureCanvasTkAgg(fig2, self.canvas_frame)
-        self.canvas.draw()
-        self.canvas.get_tk_widget().grid(row=1, column=0)
+                ax2.set_title("Total number of cases in each year from 2001-2014")
+                ax2.set_xlabel("Year")
+                ax2.set_ylabel("Total no of crimes")
+                self.canvas = FigureCanvasTkAgg(fig2, self.canvas_frame1)
+                self.canvas.draw()
+                self.canvas.get_tk_widget().grid(row=1, column=0)
+            else:
+                self.canvas_frame1.grid_forget()
+
+            if choice == "chart2":
+                self.canvas_frame2 = customtkinter.CTkFrame(
+                self.scrollable_frame, height=500, width=500)
+                self.canvas_frame2.grid(row=1, column=0, pady=5, padx=5,  sticky="nw",)
+    
+                new_dictionary2 = EDA.piechart_crime()
+                fig3, ax3 = plt.subplots()
+                pie = ax3.pie(new_dictionary2.values(), labels=new_dictionary2.keys(),
+                      autopct='%1.1f%%')
+                ax3.set_title("Percentage of Each Crime during 2001 - 2014")
+                self.canvas = FigureCanvasTkAgg(fig3, self.canvas_frame2)
+                self.canvas.draw()
+                self.canvas.get_tk_widget().grid(row=1, column=0)
+            else:
+                self.canvas_frame2.grid_forget()
+
+            if choice == "chart3":
+                self.canvas_frame3 = customtkinter.CTkFrame(
+                self.scrollable_frame, height=500, width=500)
+                self.canvas_frame3.grid(row=1, column=0, pady=5, padx=5, sticky="nw")
+
+                new_dictionary3 = EDA.bar_graph_rape()
+                fig4, ax4 = plt.subplots()
+                bar1 = ax4.bar(list(new_dictionary3.keys()),
+                           list(new_dictionary3.values()))
+                ax4.set_title("Year wise rape case count")
+                ax4.set_xlabel("Year")
+                ax4.set_ylabel("Rape")
+                self.canvas = FigureCanvasTkAgg(fig4, self.canvas_frame3)
+                self.canvas.draw()
+                self.canvas.get_tk_widget().grid(row=1, column=0)
+            else:
+                self.canvas_frame3.grid_forget()
+
+            if choice == "chart4":
+                self.canvas_frame4 = customtkinter.CTkFrame(
+                self.scrollable_frame, height=500, width=500)
+                self.canvas_frame4.grid(row=1, column=0, pady=5, padx=5, sticky="nw")
+
+                new_dictionary5 = EDA.bar_graph_Kidnapping_and_Abduction()
+                fig5, ax5 = plt.subplots()
+                bar2 = ax5.bar(list(new_dictionary5.keys()),
+                       list(new_dictionary5.values()))
+                ax5.set_title("Year wise kidnapping case count")
+                ax5.set_xlabel("Year")
+                ax5.set_ylabel("Kidnapping and Abduction")
+                self.canvas = FigureCanvasTkAgg(fig5, self.canvas_frame4)
+                self.canvas.draw()
+                self.canvas.get_tk_widget().grid(row=1, column=0)
+            else:
+                self.canvas_frame4.grid_forget()
+
+            if choice == "chart5":
+                self.canvas_frame5 = customtkinter.CTkFrame(
+                self.scrollable_frame, height=500, width=500)
+                self.canvas_frame5.grid(row=1, column=0, pady=5, padx=5, sticky="nw")
+
+                new_dictionary1 = EDA.up_graph()
+                fig, ax = plt.subplots()
+                line, = ax.plot(list(new_dictionary1.keys()),
+                        list(new_dictionary1.values()))
+                ax.set_title("Sales by Year")
+                ax.set_xlabel("Year")
+                ax.set_ylabel("Dowry Deaths")
+                self.canvas = FigureCanvasTkAgg(fig, self.canvas_frame5)
+                self.canvas.draw()
+                self.canvas.get_tk_widget().grid(row=1, column=0)
+            else:
+                self.canvas_frame5.grid_forget()
+
+        self.combobox = customtkinter.CTkComboBox(self.scrollable_frame,
+                                     values=["chart1", "chart2","chart3","chart4","chart5"],
+                                     command=combobox_callback)
+        self.combobox.grid(row=0, column=0, pady=5, padx=5, sticky="nw")
+        self.combobox.set("None")
+
+        # YEAR VS TOTAL NO OF CASES (BAR-CHART)
+            
+
+        
 
         # PIE-CHART ON ALL CASES
-        self.canvas_frame = customtkinter.CTkFrame(self.scrollable_frame)
-        self.canvas_frame.grid(row=1, column=1, pady=5, padx=5,  sticky="nw",)
-
-        new_dictionary2 = EDA.piechart_crime()
-        fig3, ax3 = plt.subplots()
-        pie = ax3.pie(new_dictionary2.values(), labels=new_dictionary2.keys(),
-                      autopct='%1.1f%%')
-        ax3.set_title("Percentage of Each Crime during 2001 - 2014")
-        self.canvas = FigureCanvasTkAgg(fig3, self.canvas_frame)
-        self.canvas.draw()
-        self.canvas.get_tk_widget().grid(row=1, column=1)
+        #def visual_2():
+            
 
         # YEAR VS RAPE CASES (BAR-GRAPH)
-        self.canvas_frame = customtkinter.CTkFrame(
-            self.scrollable_frame, height=500, width=500)
-        self.canvas_frame.grid(row=2, column=0, pady=5, padx=5, sticky="nw")
-
-        new_dictionary3 = EDA.bar_graph_rape()
-        fig4, ax4 = plt.subplots()
-        bar1 = ax4.bar(list(new_dictionary3.keys()),
-                       list(new_dictionary3.values()))
-        ax4.set_title("Year wise rape case count")
-        ax4.set_xlabel("Year")
-        ax4.set_ylabel("Rape")
-        self.canvas = FigureCanvasTkAgg(fig4, self.canvas_frame)
-        self.canvas.draw()
-        self.canvas.get_tk_widget().grid(row=2, column=0)
+        #def visual_3():
+            
 
         # YEAR VS KIDNAPPING AND ABDUCTION (BAR-GRAPH)
-        self.canvas_frame = customtkinter.CTkFrame(
-            self.scrollable_frame, height=500, width=500)
-        self.canvas_frame.grid(row=2, column=1, pady=5, padx=5, sticky="nw")
-
-        new_dictionary5 = EDA.bar_graph_Kidnapping_and_Abduction()
-        fig5, ax5 = plt.subplots()
-        bar2 = ax5.bar(list(new_dictionary5.keys()),
-                       list(new_dictionary5.values()))
-        ax5.set_title("Year wise kidnapping case count")
-        ax5.set_xlabel("Year")
-        ax5.set_ylabel("Kidnapping and Abduction")
-        self.canvas = FigureCanvasTkAgg(fig5, self.canvas_frame)
-        self.canvas.draw()
-        self.canvas.get_tk_widget().grid(row=2, column=1)
+        #def visual_4():
+            
 
         # YEAR VS DOWRY DEATH IN UP (LINE-GRAPH)
-        self.canvas_frame = customtkinter.CTkFrame(self.scrollable_frame)
-        self.canvas_frame.grid(row=3, column=0, pady=5, padx=5, sticky="nw")
+        #def visual_5():
 
-        new_dictionary1 = EDA.up_graph()
-        fig, ax = plt.subplots()
-        line, = ax.plot(list(new_dictionary1.keys()),
-                        list(new_dictionary1.values()))
-        ax.set_title("Sales by Year")
-        ax.set_xlabel("Year")
-        ax.set_ylabel("Dowry Deaths")
-        self.canvas = FigureCanvasTkAgg(fig, self.canvas_frame)
-        self.canvas.draw()
-        self.canvas.get_tk_widget().grid(row=3, column=0)
+            
+
+
+
+
 
 
 # active the home button start
@@ -293,13 +338,13 @@ class App(customtkinter.CTk):
         words = analyze.file_preprocese(file_path=file_path)
 
         self.analyze_doc_label1.configure(
-            text="Crime Charge Name :"+str(analyze.unique(analyze.extract_charges_names(words))))
+            text="Crime Charge Name :"+str(analyze.most_frequent(analyze.extract_charges_names(words))))
         self.analyze_doc_label2.configure(
-            text="Crime Crime Name :"+str(analyze.unique(analyze.extract_crime_names(words))))
+            text="Crime Crime Name :"+str(analyze.most_frequent(analyze.extract_crime_names(words))))
         self.analyze_doc_label3.configure(
-            text="IPC Sections Applicable "+str(analyze.unique(analyze.extract_charges_names(words))))
+            text="IPC Sections Applicable "+str(analyze.most_frequent(analyze.extract_charges_names(words))))
         self.analyze_doc_label4.configure(
-            text="Found evidence related to "+str(analyze.unique(analyze.assault_weapon(words))))
+            text="Found evidence related to "+str(analyze.most_frequent(analyze.assault_weapon(words))))
         self.analyze_doc_label1.grid(
             row=1, column=0, pady=5, padx=5, sticky="nw")
         self.analyze_doc_label2.grid(
@@ -312,13 +357,13 @@ class App(customtkinter.CTk):
             row=5, column=0, pady=5, padx=5, sticky="nw")
         self.analyze_search_btn.grid(
             row=5, column=1, pady=5, padx=5, sticky="nw")
-
-    def search_event(self, search_text):
-        self.analyze_doc_search_label.configure(
-            text=analyze.search_detaile(file_path, search_text))
+        
+    def search_event(self,search_text):
+        self.analyze_doc_search_label.configure(text=analyze.search_detaile(file_path,search_text))
         self.analyze_doc_search_label.grid(
             row=6, column=0, pady=5, padx=5, sticky="nw")
-
+        
+        
 
 # function for active coler in nav
 
@@ -401,9 +446,11 @@ class App(customtkinter.CTk):
                 text="File Selected: "+file_path, text_color="black")
             self.analyze_file_btn.grid(
                 row=1, column=1, pady=10, padx=10, sticky="nw")
+            
 
     def analyze(self):
         self.analyze_upload_frame.grid_forget()
+            
 
 
 if __name__ == "__main__":
